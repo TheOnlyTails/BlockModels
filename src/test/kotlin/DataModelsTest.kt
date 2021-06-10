@@ -11,7 +11,6 @@ import net.minecraft.block.Blocks
 import net.minecraft.data.DataGenerator
 import net.minecraft.util.Direction.*
 import net.minecraft.util.ResourceLocation
-import net.minecraftforge.client.model.generators.BlockModelBuilder
 import net.minecraftforge.client.model.generators.BlockStateProvider
 import net.minecraftforge.common.data.ExistingFileHelper
 import net.minecraftforge.fml.common.Mod
@@ -29,7 +28,7 @@ val gson: Gson = GsonBuilder()
 
 val logger = KotlinLogging.logger { }
 
-fun BlockStateProvider.testModel(name: String, model: BlockModelBuilder.() -> Unit) = model(name, model).apply {
+fun BlockStateProvider.testModel(name: String, model: BlockModel.() -> Unit) = model(name, model).apply {
 	logger.info { gson.toJson(this) }
 }
 

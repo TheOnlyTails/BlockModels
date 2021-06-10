@@ -1,7 +1,6 @@
 package com.theonlytails.blockmodels
 
 import net.minecraft.util.Direction
-import net.minecraftforge.client.model.generators.BlockModelBuilder as BlockModel
 
 /**
  * Adds a new element to a model.
