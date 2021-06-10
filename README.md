@@ -50,3 +50,7 @@ dependencies {
 ```
 
 The `isTransitive` property is added to make sure the library is imported correctly.
+
+---
+
+Want to generate loot tables with a DSL like this? Check out [LootTables](https://github.com/theonlytails/loottables)!
