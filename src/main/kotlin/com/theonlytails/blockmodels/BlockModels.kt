@@ -4,12 +4,13 @@ import net.minecraft.block.Block
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.client.model.generators.*
 import net.minecraftforge.client.model.generators.ModelBuilder.Perspective
-import net.minecraftforge.client.model.generators.BlockModelBuilder as BlockModel
+import net.minecraftforge.common.data.ExistingFileHelper
 
-typealias Element = ModelBuilder<BlockModel>.ElementBuilder
-typealias ElementRotation = ModelBuilder<BlockModel>.ElementBuilder.RotationBuilder
+typealias BlockModel = ModelBuilder<BlockModelBuilder>
+typealias Element = ModelBuilder<BlockModelBuilder>.ElementBuilder
+typealias ElementRotation = ModelBuilder<BlockModelBuilder>.ElementBuilder.RotationBuilder
 typealias ConfiguredBuilder = ConfiguredModel.Builder<*>
-typealias DisplayBuilder = ModelBuilder<BlockModel>.TransformsBuilder
+typealias DisplayBuilder = ModelBuilder<BlockModelBuilder>.TransformsBuilder
 
 /**
  * An annotation that marks every member of this DSL.
@@ -101,6 +102,16 @@ fun BlockStateProvider.modelBuilder(block: Block, body: BlockModel.() -> Unit) =
  */
 @BlockModelsDsl
 fun BlockModel.parent(parent: BlockModel.() -> ModelFile): BlockModel = parent(parent())
+
+/**
+ * Sets the parent model.
+ *
+ * @author TheOnlyTails
+ */
+@BlockModelsDsl
+fun BlockModel.parent(existingFileHelper: ExistingFileHelper, parent: BlockModel.() -> String) = parent {
+	getExistingFile(ResourceLocation("minecraft", parent()), existingFileHelper)
+}
 
 /**
  * Toggles ambient occlusion.
