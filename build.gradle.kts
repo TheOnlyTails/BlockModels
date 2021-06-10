@@ -71,6 +71,7 @@ configure<UserDevExtension> {
 
 			mods {
 				create(artifactId) {
+					source(sourceSets["main"])
 					source(sourceSets["test"])
 				}
 			}
@@ -89,6 +90,7 @@ configure<UserDevExtension> {
 
 			mods {
 				create(artifactId) {
+					source(sourceSets["main"])
 					source(sourceSets["test"])
 				}
 			}
@@ -118,6 +120,7 @@ configure<UserDevExtension> {
 
 			mods {
 				create(artifactId) {
+					source(sourceSets["main"])
 					source(sourceSets["test"])
 				}
 			}
