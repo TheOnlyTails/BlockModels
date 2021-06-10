@@ -32,17 +32,14 @@ apply(plugin = "com.vanniktech.maven.publish")
 apply(plugin = "net.minecraftforge.gradle")
 
 // Config -> Minecraft
-val forgeVersion: String by extra
-val minecraftVersion: String by extra
+val forgeVersion = getProperty("forgeVersion")
+val minecraftVersion = getProperty("minecraftVersion")
 
-@Suppress("PropertyName")
-val VERSION_NAME: String by extra
-
-@Suppress("PropertyName")
-val GROUP: String by extra { "com.theonlytails" }
-
-@Suppress("PropertyName")
-val POM_ARTIFACT_ID: String by extra { "blockmodels" }
+val version = getProperty("VERSION_NAME")
+val group = getProperty("GROUP")
+val artifactId = getProperty("POM_ARTIFACT_ID")
+val libraryName = getProperty("POM_NAME")
+val author = getProperty("POM_DEVELOPER_NAME")
 
 // JVM Info
 println(
@@ -73,7 +70,7 @@ configure<UserDevExtension> {
 			property("forge.logging.console.level" to "debug")
 
 			mods {
-				create(POM_ARTIFACT_ID) {
+				create(artifactId) {
 					source(sourceSets["test"])
 				}
 			}
@@ -91,7 +88,7 @@ configure<UserDevExtension> {
 			property("forge.logging.console.level" to "debug")
 
 			mods {
-				create(POM_ARTIFACT_ID) {
+				create(artifactId) {
 					source(sourceSets["test"])
 				}
 			}
@@ -111,7 +108,7 @@ configure<UserDevExtension> {
 			// Specify the mod id for data generation, where to output the resulting resource, and where to look for existing resources.
 			args(
 				"--mod",
-				POM_ARTIFACT_ID,
+				artifactId,
 				"--all",
 				"--output",
 				file("src/generated/resources/"),
@@ -120,7 +117,7 @@ configure<UserDevExtension> {
 			)
 
 			mods {
-				create(POM_ARTIFACT_ID) {
+				create(artifactId) {
 					source(sourceSets["test"])
 				}
 			}
@@ -144,9 +141,9 @@ repositories {
 }
 
 // Setup
-project.group = GROUP
-project.version = VERSION_NAME
-base.archivesBaseName = POM_ARTIFACT_ID
+project.group = group
+project.version = version
+base.archivesBaseName = artifactId
 
 // Sets the toolchain to compile against OpenJDK 8
 java {
@@ -161,14 +158,14 @@ tasks.named<Jar>("jar") {
 	// Manifest
 	manifest {
 		attributes(
-			"Specification-Title" to "BlockModels",
-			"Specification-Vendor" to "TheOnlyTails",
+			"Specification-Title" to libraryName,
+			"Specification-Vendor" to author,
 			"Specification-Version" to "1",
-			"Implementation-Title" to "BlockModels",
+			"Implementation-Title" to libraryName,
 			"Implementation-Version" to project.version,
-			"Implementation-Vendor" to "TheOnlyTails",
-			"Implementation-Timestamp" to ISO_INSTANT.format(now()),
-			"FMLModType" to "LIBRARY"
+			"Implementation-Vendor" to author,
+			"Implementation-Timestamp" to ISO_INSTANT.format(now())
+			// "FMLModType" to "LIBRARY"
 		)
 	}
 
@@ -180,3 +177,4 @@ extensions.getByType<MavenPublishPluginExtension>().sonatypeHost = SonatypeHost.
 
 fun RunConfig.mods(closure: NamedDomainObjectContainer<ModConfig>.() -> Unit) = mods(closureOf(closure))
 fun RunConfig.property(property: Pair<String, String>) = property(property.first, property.second)
+fun getProperty(name: String, defaultValue: String = "") = findProperty(name)?.toString() ?: defaultValue

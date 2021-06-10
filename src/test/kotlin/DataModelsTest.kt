@@ -38,20 +38,20 @@ class DataModelsTest {
 		MOD_BUS.addListener(::gatherData)
 		blocks.register(MOD_BUS)
 	}
+
+	private fun gatherData(event: GatherDataEvent) {
+		if (event.includeClient()) event.generator.addProvider(
+			DataModelGenerator(
+				event.generator,
+				event.existingFileHelper
+			)
+		)
+	}
 }
 
 object TestBlocks {
 	val blocks = KDeferredRegister(ForgeRegistries.BLOCKS, MOD_ID)
 	val exampleBlock by blocks.registerObject("example") { Block(copy(Blocks.GOLD_BLOCK)) }
-}
-
-fun gatherData(event: GatherDataEvent) {
-	if (event.includeClient()) event.generator.addProvider(
-		DataModelGenerator(
-			event.generator,
-			event.existingFileHelper
-		)
-	)
 }
 
 class DataModelGenerator(generator: DataGenerator, helper: ExistingFileHelper) :
