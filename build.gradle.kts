@@ -1,6 +1,5 @@
 import com.vanniktech.maven.publish.MavenPublishPluginExtension
 import com.vanniktech.maven.publish.SonatypeHost
-import net.minecraftforge.gradle.common.util.ModConfig
 import net.minecraftforge.gradle.common.util.RunConfig
 import net.minecraftforge.gradle.userdev.UserDevExtension
 import org.gradle.jvm.toolchain.JvmVendorSpec.ADOPTOPENJDK
@@ -11,12 +10,11 @@ import java.time.format.DateTimeFormatter.ISO_INSTANT
 buildscript {
 	repositories {
 		maven(url = "https://maven.minecraftforge.net/")
-		jcenter()
 		mavenCentral()
 	}
 
 	dependencies {
-		classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "4.1.+") {
+		classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "5.+") {
 			isChanging = true
 		}
 		classpath(group = "com.vanniktech", name = "gradle-maven-publish-plugin", version = "latest.release")
@@ -32,17 +30,14 @@ apply(plugin = "com.vanniktech.maven.publish")
 apply(plugin = "net.minecraftforge.gradle")
 
 // Config -> Minecraft
-val forgeVersion: String by extra
-val minecraftVersion: String by extra
+val forgeVersion = getProperty("forgeVersion")
+val minecraftVersion = getProperty("minecraftVersion")
 
-@Suppress("PropertyName")
-val VERSION_NAME: String by extra
-
-@Suppress("PropertyName")
-val GROUP: String by extra { "com.theonlytails" }
-
-@Suppress("PropertyName")
-val POM_ARTIFACT_ID: String by extra { "blockmodels" }
+val version = getProperty("VERSION_NAME")
+val group = getProperty("GROUP")
+val artifactId = getProperty("POM_ARTIFACT_ID")
+val libraryName = getProperty("POM_NAME")
+val author = getProperty("POM_DEVELOPER_NAME")
 
 // JVM Info
 println(
@@ -60,7 +55,7 @@ configure<UserDevExtension> {
 	// @Suppress("SpellCheckingInspection")
 	// accessTransformer(file("src/test/resources/META-INF/accesstransformer.cfg"))
 
-	runs(closureOf<NamedDomainObjectContainer<RunConfig>> {
+	runs {
 		create("client") {
 			workingDirectory(file("run"))
 
@@ -73,7 +68,8 @@ configure<UserDevExtension> {
 			property("forge.logging.console.level" to "debug")
 
 			mods {
-				create(POM_ARTIFACT_ID) {
+				create(artifactId) {
+					source(sourceSets["main"])
 					source(sourceSets["test"])
 				}
 			}
@@ -91,7 +87,8 @@ configure<UserDevExtension> {
 			property("forge.logging.console.level" to "debug")
 
 			mods {
-				create(POM_ARTIFACT_ID) {
+				create(artifactId) {
+					source(sourceSets["main"])
 					source(sourceSets["test"])
 				}
 			}
@@ -111,7 +108,7 @@ configure<UserDevExtension> {
 			// Specify the mod id for data generation, where to output the resulting resource, and where to look for existing resources.
 			args(
 				"--mod",
-				POM_ARTIFACT_ID,
+				artifactId,
 				"--all",
 				"--output",
 				file("src/generated/resources/"),
@@ -120,12 +117,13 @@ configure<UserDevExtension> {
 			)
 
 			mods {
-				create(POM_ARTIFACT_ID) {
+				create(artifactId) {
+					source(sourceSets["main"])
 					source(sourceSets["test"])
 				}
 			}
 		}
-	})
+	}
 }
 
 // Minecraft Dependency
@@ -144,9 +142,9 @@ repositories {
 }
 
 // Setup
-project.group = GROUP
-project.version = VERSION_NAME
-base.archivesBaseName = POM_ARTIFACT_ID
+project.group = group
+project.version = version
+base.archivesName.set(artifactId)
 
 // Sets the toolchain to compile against OpenJDK 8
 java {
@@ -161,14 +159,14 @@ tasks.named<Jar>("jar") {
 	// Manifest
 	manifest {
 		attributes(
-			"Specification-Title" to "BlockModels",
-			"Specification-Vendor" to "TheOnlyTails",
+			"Specification-Title" to libraryName,
+			"Specification-Vendor" to author,
 			"Specification-Version" to "1",
-			"Implementation-Title" to "BlockModels",
+			"Implementation-Title" to libraryName,
 			"Implementation-Version" to project.version,
-			"Implementation-Vendor" to "TheOnlyTails",
+			"Implementation-Vendor" to author,
 			"Implementation-Timestamp" to ISO_INSTANT.format(now()),
-			"FMLModType" to "LIBRARY"
+			"FMLModType" to "LIBRARY",
 		)
 	}
 
@@ -178,5 +176,5 @@ tasks.named<Jar>("jar") {
 // Publishing to maven central
 extensions.getByType<MavenPublishPluginExtension>().sonatypeHost = SonatypeHost.S01
 
-fun RunConfig.mods(closure: NamedDomainObjectContainer<ModConfig>.() -> Unit) = mods(closureOf(closure))
 fun RunConfig.property(property: Pair<String, String>) = property(property.first, property.second)
+fun getProperty(name: String, defaultValue: String = "") = findProperty(name)?.toString() ?: defaultValue
