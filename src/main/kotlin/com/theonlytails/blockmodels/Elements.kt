@@ -7,7 +7,7 @@ import net.minecraft.util.Direction
  *
  * @author TheOnlyTails
  */
-@BlockModelsDsl
+@BlockModels
 fun BlockModel.element(body: Element.() -> Element): BlockModel = this.element().body().end()
 
 /**
@@ -15,7 +15,7 @@ fun BlockModel.element(body: Element.() -> Element): BlockModel = this.element()
  *
  * @author TheOnlyTails
  */
-@BlockModelsDsl
+@BlockModels
 fun Element.start(x: Float, y: Float, z: Float): Element = from(x, y, z)
 
 /**
@@ -23,7 +23,7 @@ fun Element.start(x: Float, y: Float, z: Float): Element = from(x, y, z)
  *
  * @author TheOnlyTails
  */
-@BlockModelsDsl
+@BlockModels
 fun Element.finish(x: Float, y: Float, z: Float): Element = to(x, y, z)
 
 /**
@@ -31,7 +31,7 @@ fun Element.finish(x: Float, y: Float, z: Float): Element = to(x, y, z)
  *
  * @author TheOnlyTails
  */
-@BlockModelsDsl
+@BlockModels
 fun Element.start(x: Int, y: Int, z: Int): Element = from(x.toFloat(), y.toFloat(), z.toFloat())
 
 /**
@@ -39,7 +39,7 @@ fun Element.start(x: Int, y: Int, z: Int): Element = from(x.toFloat(), y.toFloat
  *
  * @author TheOnlyTails
  */
-@BlockModelsDsl
+@BlockModels
 fun Element.finish(x: Int, y: Int, z: Int): Element = to(x.toFloat(), y.toFloat(), z.toFloat())
 
 /**
@@ -47,7 +47,7 @@ fun Element.finish(x: Int, y: Int, z: Int): Element = to(x.toFloat(), y.toFloat(
  *
  * @author TheOnlyTails
  */
-@BlockModelsDsl
+@BlockModels
 fun Element.rotation(body: ElementRotation.() -> ElementRotation): Element = rotation().body().end()
 
 /**
@@ -55,7 +55,7 @@ fun Element.rotation(body: ElementRotation.() -> ElementRotation): Element = rot
  *
  * @author TheOnlyTails
  */
-@BlockModelsDsl
+@BlockModels
 fun Element.rotation(angle: Float, axis: Direction.Axis, x: Float, y: Float, z: Float, rescale: Boolean = false) =
 	rotation {
 		angle(angle)

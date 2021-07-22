@@ -3,7 +3,7 @@ package com.theonlytails.blockmodels
 import net.minecraft.util.Direction
 import net.minecraftforge.client.model.generators.ConfiguredModel
 
-@BlockModelsDsl
+@BlockModels
 fun ConfiguredBuilder.rotationY(
 	direction: Direction,
 	north: Int,
@@ -19,7 +19,7 @@ fun ConfiguredBuilder.rotationY(
 	}
 )
 
-@BlockModelsDsl
+@BlockModels
 fun ConfiguredBuilder.rotationX(
 	direction: Direction,
 	north: Int,

@@ -1,6 +1,5 @@
 import com.vanniktech.maven.publish.MavenPublishPluginExtension
 import com.vanniktech.maven.publish.SonatypeHost
-import net.minecraftforge.gradle.common.util.ModConfig
 import net.minecraftforge.gradle.common.util.RunConfig
 import net.minecraftforge.gradle.userdev.UserDevExtension
 import org.gradle.jvm.toolchain.JvmVendorSpec.ADOPTOPENJDK
@@ -11,12 +10,11 @@ import java.time.format.DateTimeFormatter.ISO_INSTANT
 buildscript {
 	repositories {
 		maven(url = "https://maven.minecraftforge.net/")
-		jcenter()
 		mavenCentral()
 	}
 
 	dependencies {
-		classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "4.1.+") {
+		classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "5.+") {
 			isChanging = true
 		}
 		classpath(group = "com.vanniktech", name = "gradle-maven-publish-plugin", version = "latest.release")
@@ -57,7 +55,7 @@ configure<UserDevExtension> {
 	// @Suppress("SpellCheckingInspection")
 	// accessTransformer(file("src/test/resources/META-INF/accesstransformer.cfg"))
 
-	runs(closureOf<NamedDomainObjectContainer<RunConfig>> {
+	runs {
 		create("client") {
 			workingDirectory(file("run"))
 
@@ -125,7 +123,7 @@ configure<UserDevExtension> {
 				}
 			}
 		}
-	})
+	}
 }
 
 // Minecraft Dependency
@@ -146,7 +144,7 @@ repositories {
 // Setup
 project.group = group
 project.version = version
-base.archivesBaseName = artifactId
+base.archivesName.set(artifactId)
 
 // Sets the toolchain to compile against OpenJDK 8
 java {
@@ -167,8 +165,8 @@ tasks.named<Jar>("jar") {
 			"Implementation-Title" to libraryName,
 			"Implementation-Version" to project.version,
 			"Implementation-Vendor" to author,
-			"Implementation-Timestamp" to ISO_INSTANT.format(now())
-			// "FMLModType" to "LIBRARY"
+			"Implementation-Timestamp" to ISO_INSTANT.format(now()),
+			"FMLModType" to "LIBRARY",
 		)
 	}
 
@@ -178,6 +176,5 @@ tasks.named<Jar>("jar") {
 // Publishing to maven central
 extensions.getByType<MavenPublishPluginExtension>().sonatypeHost = SonatypeHost.S01
 
-fun RunConfig.mods(closure: NamedDomainObjectContainer<ModConfig>.() -> Unit) = mods(closureOf(closure))
 fun RunConfig.property(property: Pair<String, String>) = property(property.first, property.second)
 fun getProperty(name: String, defaultValue: String = "") = findProperty(name)?.toString() ?: defaultValue

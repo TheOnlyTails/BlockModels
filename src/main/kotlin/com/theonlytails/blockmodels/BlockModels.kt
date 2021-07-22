@@ -5,6 +5,7 @@ import net.minecraft.util.ResourceLocation
 import net.minecraftforge.client.model.generators.*
 import net.minecraftforge.client.model.generators.ModelBuilder.Perspective
 import net.minecraftforge.common.data.ExistingFileHelper
+import kotlin.annotation.AnnotationTarget.*
 
 typealias BlockModel = ModelBuilder<BlockModelBuilder>
 typealias Element = ModelBuilder<BlockModelBuilder>.ElementBuilder
@@ -19,14 +20,15 @@ typealias DisplayBuilder = ModelBuilder<BlockModelBuilder>.TransformsBuilder
  */
 @DslMarker
 @MustBeDocumented
-annotation class BlockModelsDsl
+@Target(FUNCTION, CLASS, CONSTRUCTOR)
+annotation class BlockModels
 
 /**
  * Holds a 3D point in space.
  *
  * @author TheOnlyTails
  */
-@BlockModelsDsl
+@BlockModels
 data class Point3D(val x: Float, val y: Float, val z: Float) {
 
 	/**
@@ -34,7 +36,7 @@ data class Point3D(val x: Float, val y: Float, val z: Float) {
 	 *
 	 * @author TheOnlyTails
 	 */
-	@BlockModelsDsl
+	@BlockModels
 	constructor(value: Float) : this(value, value, value)
 }
 
@@ -47,7 +49,7 @@ data class Point3D(val x: Float, val y: Float, val z: Float) {
  * @property scale       by how much to scale the model.
  * @author TheOnlyTails
  */
-@BlockModelsDsl
+@BlockModels
 data class DisplayTransform(
 	val perspective: Perspective,
 	val translation: Point3D,
@@ -61,7 +63,7 @@ data class DisplayTransform(
  * @param path the name of the generated file
  * @author TheOnlyTails
  */
-@BlockModelsDsl
+@BlockModels
 fun BlockStateProvider.model(path: String, body: BlockModel.() -> Unit): Array<ConfiguredModel> =
 	modelBuilder(path, body).build()
 
@@ -71,7 +73,7 @@ fun BlockStateProvider.model(path: String, body: BlockModel.() -> Unit): Array<C
  * @param block the block the model will be applied to (and the name of the file)
  * @author TheOnlyTails
  */
-@BlockModelsDsl
+@BlockModels
 fun BlockStateProvider.model(block: Block, body: BlockModel.() -> Unit): Array<ConfiguredModel> =
 	modelBuilder(block, body).build()
 
@@ -81,7 +83,7 @@ fun BlockStateProvider.model(block: Block, body: BlockModel.() -> Unit): Array<C
  * @param path the name of the generated file
  * @author TheOnlyTails
  */
-@BlockModelsDsl
+@BlockModels
 fun BlockStateProvider.modelBuilder(path: String, body: BlockModel.() -> Unit): ConfiguredBuilder =
 	ConfiguredModel.builder().modelFile(models().getBuilder(path).apply(body))
 
@@ -91,7 +93,7 @@ fun BlockStateProvider.modelBuilder(path: String, body: BlockModel.() -> Unit): 
  * @param block the block the model will be applied to (and the name of the file)
  * @author TheOnlyTails
  */
-@BlockModelsDsl
+@BlockModels
 fun BlockStateProvider.modelBuilder(block: Block, body: BlockModel.() -> Unit) =
 	modelBuilder(path = block.registryName?.path ?: "", body = body)
 
@@ -100,7 +102,7 @@ fun BlockStateProvider.modelBuilder(block: Block, body: BlockModel.() -> Unit) =
  *
  * @author TheOnlyTails
  */
-@BlockModelsDsl
+@BlockModels
 fun BlockModel.parent(parent: BlockModel.() -> ModelFile): BlockModel = parent(parent())
 
 /**
@@ -108,7 +110,7 @@ fun BlockModel.parent(parent: BlockModel.() -> ModelFile): BlockModel = parent(p
  *
  * @author TheOnlyTails
  */
-@BlockModelsDsl
+@BlockModels
 fun BlockModel.parent(existingFileHelper: ExistingFileHelper, parent: BlockModel.() -> String) = parent {
 	getExistingFile(ResourceLocation("minecraft", parent()), existingFileHelper)
 }
@@ -118,7 +120,7 @@ fun BlockModel.parent(existingFileHelper: ExistingFileHelper, parent: BlockModel
  *
  * @author TheOnlyTails
  */
-@BlockModelsDsl
+@BlockModels
 fun BlockModel.ambientOcclusion(ambientOcclusion: Boolean): BlockModel = ao(ambientOcclusion)
 
 /**
@@ -126,7 +128,7 @@ fun BlockModel.ambientOcclusion(ambientOcclusion: Boolean): BlockModel = ao(ambi
  *
  * @author TheOnlyTails
  */
-@BlockModelsDsl
+@BlockModels
 fun BlockModel.display(transform: DisplayTransform): DisplayBuilder = transforms()
 	.transform(transform.perspective)
 	.translation(transform.translation.x, transform.translation.y, transform.translation.z)
@@ -139,7 +141,7 @@ fun BlockModel.display(transform: DisplayTransform): DisplayBuilder = transforms
  *
  * @author TheOnlyTails
  */
-@BlockModelsDsl
+@BlockModels
 fun BlockModel.texture(vararg textures: Pair<String, ResourceLocation>) = apply {
 	textures.forEach { texture(it.first, it.second) }
 }
