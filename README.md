@@ -1,6 +1,7 @@
 [![Maven metadata URL](https://img.shields.io/maven-metadata/v?color=blue&label=maven%20central&logo=gradle&metadataUrl=https%3A%2F%2Fs01.oss.sonatype.org%2Fservice%2Flocal%2Frepositories%2Freleases%2Fcontent%2Fcom%2Ftheonlytails%2Fblockmodels%2Fmaven-metadata.xml&style=for-the-badge)](https://search.maven.org/artifact/com.theonlytails/blockmodels)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/TheOnlyTails/blockmodels/Java%20CI%20with%20Gradle?label=gradle%20build&logo=github&style=for-the-badge)
-![GitHub top language](https://img.shields.io/github/languages/top/TheOnlyTails/blockmodels?logo=kotlin&logoColor=white&style=for-the-badge)
+![Kotlin](https://img.shields.io/badge/kotlin-%236C3FD1.svg?style=for-the-badge&logo=kotlin&logoColor=white)
+![Gradle](https://img.shields.io/badge/gradle-%2302303A.svg?style=for-the-badge&logo=gradle&logoColor=white)
 ![GitHub License](https://img.shields.io/github/license/theonlytails/blockmodels?style=for-the-badge&logo=key)
 
 # BlockModels
@@ -16,7 +17,7 @@ of this library.
 
 ## Installation
 
-###### Don't forget to replace the VERSION key with the version in the top with the Maven Central badge at the top!
+_Don't forget to replace the VERSION key with the version in the top with the Maven Central badge at the top!_
 
 #### Gradle/Groovy
 
