@@ -4,6 +4,8 @@
 ![Gradle](https://img.shields.io/badge/gradle-%2302303A.svg?style=for-the-badge&logo=gradle&logoColor=white)
 ![GitHub License](https://img.shields.io/github/license/theonlytails/blockmodels?style=for-the-badge&logo=key)
 
+*Announcement: BlockModels will be ported to 1.17*
+
 # BlockModels
 
 A Kotlin DSL for creating block models in Minecraft Forge mods.
