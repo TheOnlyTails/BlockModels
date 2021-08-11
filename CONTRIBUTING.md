@@ -29,8 +29,7 @@ the [main branch](https://github.com/theonlytails/blockmodels/tree/main).
 
 Before creating your PR, make sure to:
 
-- Request a review from at least one of
-  the [members of the triage team](https://github.com/TheOnlyTails/BlockModels/wiki/Triage-Team).
+- Request a review from [@TheOnlyTails](https://github.com/theonlytails]
 - Add a relevant label.
 - If your PR is supposed to close an issue,
   add ["Closes #<issue number>"](https://docs.github.com/en/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue) (
