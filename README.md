@@ -48,7 +48,7 @@ dependencies {
     val blockModels = project.dependencies.create(group = "com.theonlytails", name = "blockmodels", version = VERSION)
 		.apply { isTransitive = false }
     
-    implementation(project.the<DependencyManagementExtension>().deobf(blockModels))
+    implementation(fg.deobf(blockModels))
 }
 ```
 
