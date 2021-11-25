@@ -4,7 +4,7 @@
 ![Gradle](https://img.shields.io/badge/gradle-%2302303A.svg?style=for-the-badge&logo=gradle&logoColor=white)
 ![GitHub License](https://img.shields.io/github/license/theonlytails/blockmodels?style=for-the-badge&logo=key)
 
-*Announcement: BlockModels will be ported to 1.17*
+*Announcement: BlockModels will be ported to 1.18*
 
 # BlockModels
 
@@ -56,4 +56,4 @@ The `isTransitive` property is added to make sure the library is imported correc
 
 ---
 
-Want to generate loot tables with a DSL like this? Check out [LootTables](https://github.com/theonlytails/loottables)!
+Want to generate loot tables with a DSL like this? Check out [LootGoblin](https://github.com/theonlytails/lootgoblin)!
